@@ -1,0 +1,1 @@
+hoareSemanticsDefScript.uo: /Users/aikoma/HOL/sigobj/HolKernel.uo /Users/aikoma/HOL/sigobj/IndDefLib.uo /Users/aikoma/HOL/sigobj/Parse.uo /Users/aikoma/HOL/sigobj/boolLib.uo /Users/aikoma/HOL/sigobj/bossLib.uo hoareSyntaxDefTheory.uo /Users/aikoma/HOL/sigobj/stringTheory.uo 

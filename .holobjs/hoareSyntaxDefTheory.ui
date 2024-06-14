@@ -1,0 +1,6 @@
+$(HOLDIR)/sigobj/Overlay
+$(HOLDIR)/sigobj/Thm
+$(HOLDIR)/sigobj/term_grammar
+$(HOLDIR)/sigobj/type_grammar
+/Users/aikoma/Research/URVSummer2024/hoareSyntaxDefTheory
+/Users/aikoma/Research/URVSummer2024/hoareSyntaxDefTheory.sig
