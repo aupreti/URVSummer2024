@@ -11,7 +11,7 @@ struct
   structure TDB = struct
     val thydata = 
       TheoryReader.load_thydata "hoareSyntaxDef"
-        (holpathdb.subst_pathvars "/Users/aikoma/Research/URVSummer2024/hoareSyntaxDefTheory.dat")
+        (holpathdb.subst_pathvars "/Users/letan/Desktop/TAN_STUDYING/URV/shared project/URVSummer2024/hoareSyntaxDefTheory.dat")
     fun find s = HOLdict.find (thydata,s)
   end
   

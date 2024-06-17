@@ -1,1 +1,1 @@
-hoareSyntaxDefScript.uo: /Users/aikoma/HOL/sigobj/HolKernel.uo /Users/aikoma/HOL/sigobj/Parse.uo /Users/aikoma/HOL/sigobj/boolLib.uo /Users/aikoma/HOL/sigobj/bossLib.uo /Users/aikoma/HOL/sigobj/stringTheory.uo 
+hoareSyntaxDefScript.uo: /Users/letan/Desktop/TAN_STUDYING/URV/project/HOL/sigobj/HolKernel.uo /Users/letan/Desktop/TAN_STUDYING/URV/project/HOL/sigobj/Parse.uo /Users/letan/Desktop/TAN_STUDYING/URV/project/HOL/sigobj/boolLib.uo /Users/letan/Desktop/TAN_STUDYING/URV/project/HOL/sigobj/bossLib.uo /Users/letan/Desktop/TAN_STUDYING/URV/project/HOL/sigobj/stringTheory.uo 

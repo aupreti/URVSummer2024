@@ -2,7 +2,7 @@ open HolKernel Parse boolLib bossLib;
 open stringTheory hoareSyntaxDefTheory;
 
 val _ = new_theory "hoareSemanticsDef";
-val _ = type_abbrev("env"  , ``:string -> num``);
+
 
 Inductive eval_aexpr:
   (eval_aexpr (ANum n) n) ∧
@@ -32,9 +32,4 @@ Inductive eval_com:
   (eval_bexpr be T ∧ eval_com env1 c env2 ∧ eval_com env2 (CWhile be c) env3 ⇒ eval_com env1 (CWhile be c) env3) ∧
   (eval_bexpr be F ⇒ eval_com env1 (CWhile be c) env1)
 End
-
-
-
-
-                
 val _ = export_theory();

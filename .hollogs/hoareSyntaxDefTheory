@@ -27,4 +27,4 @@ Saved theorem _______ "com_case_cong"
 Saved theorem _______ "com_case_eq"
 <<HOL message: Defined type: "com">>
 Exporting theory "hoareSyntaxDef" ... done.
-Theory "hoareSyntaxDef" took 0.53639s to build
+Theory "hoareSyntaxDef" took 0.53651s to build

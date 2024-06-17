@@ -1,6 +1,5 @@
 (theory
- (("hoareSyntaxDef" "1718377564" "694520")
-  ("string" "1717721598" "264655"))
+ (("hoareSyntaxDef" "1718634404" "469446") ("string" "1717770376" "81476"))
  (core-data
   (tables
    (string-table "min" "fun" "bool" "ind_type" "recspace" "num" "pair"
