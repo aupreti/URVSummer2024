@@ -1,0 +1,10 @@
+.HOLMK/
+.hollogs/
+.DS_Store/
+.holobjs/
+heap
+*~
+*.uo
+*.ui
+*.dat
+*.sig

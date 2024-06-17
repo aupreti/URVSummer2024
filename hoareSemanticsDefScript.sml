@@ -24,19 +24,15 @@ Inductive eval_bexpr:
 End
 
 Inductive eval_com:
-  (eval_aexpr ae n ⇒ eval_com env (CAsgn v ae) (env⦇v ↦ n⦈))
+  (eval_aexpr ae n ⇒ eval_com env (CAsgn v ae) (env⦇v ↦ n⦈))∧
+  (eval_com env1 CSkip env1) ∧
+  (eval_com env1 c1 env2 ∧ eval_com env2 c2 env3 ⇒ eval_com env1 (CSeq c1 c2) env3) ∧
+  (eval_bexpr be T ∧ eval_com env1 c1 env2 ⇒ eval_com env1 (CIf be c1 c2) env2) ∧
+  (eval_bexpr be F ∧ eval_com env1 c2 env2 ⇒ eval_com env1 (CIf be c1 c2) env2) ∧
+  (eval_bexpr be T ∧ eval_com env1 c env2 ∧ eval_com env2 (CWhile be c) env3 ⇒ eval_com env1 (CWhile be c) env3) ∧
+  (eval_bexpr be F ⇒ eval_com env1 (CWhile be c) env1)
 End
 
-(*val _ = Datatype‘
-         com = 
-         | CSkip
-         | CAsgn var aexp
-         | CSeq  com com 
-         | CIf bexp com com
-         | CWhile bexp com
-        ’;
-
-*)
 
 
 
