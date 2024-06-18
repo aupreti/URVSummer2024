@@ -8,6 +8,7 @@ val _ = type_abbrev("var"  , ``:string``);
 val _ = Datatype‘
          aexp =
          | ANum num
+         | AId var
          | APlus aexp aexp
          | AMinus  aexp aexp
          | AMult aexp aexp
@@ -30,7 +31,7 @@ val _ = Datatype‘
          com = 
          | CSkip
          | CAsgn var aexp
-         | CSeq  com com 
+         | CSeq com com 
          | CIf bexp com com
          | CWhile bexp com
         ’;
