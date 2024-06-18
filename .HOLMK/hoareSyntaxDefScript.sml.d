@@ -1,1 +1,0 @@
-hoareSyntaxDefScript.uo: /Users/angelaupreti/Tools/HOL/sigobj/HolKernel.uo /Users/angelaupreti/Tools/HOL/sigobj/Parse.uo /Users/angelaupreti/Tools/HOL/sigobj/boolLib.uo /Users/angelaupreti/Tools/HOL/sigobj/bossLib.uo /Users/angelaupreti/Tools/HOL/sigobj/stringTheory.uo 

@@ -1,1 +1,0 @@
-hoareSemanticsDefScript.uo: /Users/angelaupreti/Tools/HOL/sigobj/HolKernel.uo /Users/angelaupreti/Tools/HOL/sigobj/IndDefLib.uo /Users/angelaupreti/Tools/HOL/sigobj/Parse.uo /Users/angelaupreti/Tools/HOL/sigobj/boolLib.uo /Users/angelaupreti/Tools/HOL/sigobj/bossLib.uo hoareSyntaxDefTheory.uo /Users/angelaupreti/Tools/HOL/sigobj/stringTheory.uo 
