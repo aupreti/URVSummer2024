@@ -16,14 +16,14 @@ End
 Inductive Hoare:
   (Hoare P CSkip P) ∧
   (Hoare (assert_subst Q v ae) (CAsgn v ae) Q) ∧
-  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R)
+  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R) ∧
   (∀ P1 Q1. (∀ env. P0 env ⇒ P1 env) ∧ Hoare P1 c Q1 ∧ (∀ env. Q1 env ⇒ Q0 env) ⇒ Hoare P0 c Q0)
 End
 
 
 Definition is_valid:
-  is_valid (P: assert) (c: com) (Q: assert) : bexp =
-  (∀ env0 env1. P env0 ∧ eval_com c env0 env1 ⇒ Q env1)
+  is_valid (P: assert) (c: com) (Q: assert) =
+  (∀ env0 env1. P env0 ∧ eval_com env0 c env1 ⇒ Q env1)
 End
 
 
