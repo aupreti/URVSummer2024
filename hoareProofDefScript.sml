@@ -17,6 +17,7 @@ Inductive Hoare:
   (Hoare P CSkip P) ∧
   (Hoare (assert_subst Q v ae) (CAsgn v ae) Q) ∧
   (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R)
+  (∀ P' Q'. (∀ env. P env ⇒ P' env) ∧ Hoare P' c Q' ∧ (∀ env. Q' env ⇒ Q env) ⇒ Hoare P c Q)
 End
 
 (*
