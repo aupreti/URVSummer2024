@@ -1,7 +1,7 @@
 open HolKernel Parse boolLib bossLib;
-open stringTheory hoareSyntaxDefTheory;
+open stringTheory hoareSyntaxDefTheory hoareSemanticsDefTheory;
 
-val _ = new_theory "hoareSemanticsDef";
+val _ = new_theory "hoareProofDef";
 
 val _ = type_abbrev("var"  , ``:string``);
 val _ = type_abbrev("env"  , ``:string -> num``);
@@ -13,14 +13,31 @@ Definition assert_subst_def:
      ∃a. eval_aexpr env ae a ⇒ P env⦇x ↦ a⦈)
 End
 
+Definition is_valid:
+  valid (P: assert) (c: com) (Q: assert) : bexp =
+  (∀ env0 env1. P env0 ∧ 
+  
+           
+End
+
+
 Inductive Hoare:
   (Hoare P CSkip P) ∧
   (Hoare (assert_subst Q v ae) (CAsgn v ae) Q) ∧
   (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R) ∧
-  (Hoare (λenv. P env ∧ eval_bexpr env b) c P ⇒ Hoare P (CWhile b c) (λenv. P env ∧ ¬(eval_bexpr env b)))
-   
+  (Hoare (λenv. P env ∧ eval_bexpr env b T) c P ⇒ Hoare P (CWhile b c) (λenv. P env ∧ (eval_bexpr env b F)))
 End
 
+
+Theorem hoare_sound :
+  ∀ P c Q. Hoare P c Q → is_valid P c Q.
+                                  
+Proof
+  
+
+        
+QED
+                                
 (*
 Inductive derivable : Assertion → com → Assertion → Type :=
   | H_Skip : ∀ P,
