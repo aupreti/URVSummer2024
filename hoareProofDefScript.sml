@@ -17,6 +17,8 @@ Inductive Hoare:
   (Hoare P CSkip P) ∧
   (Hoare (assert_subst Q v ae) (CAsgn v ae) Q) ∧
   (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R) ∧
+  (Hoare (λenv. P env ∧ eval_expr env b T) c1 Q ∧
+   Hoare (λenv. P env ∧ eval_expr env b F) c2 Q ⇒ Hoare P (CIf b c1 c2) Q) ∧  
   (Hoare (λenv. P env ∧ eval_bexpr env b T) c P ⇒ Hoare P (CWhile b c) (λenv. P env ∧ (eval_bexpr env b F))) ∧ 
   (∀ P1 Q1. (∀ env. P0 env ⇒ P1 env) ∧ Hoare P1 c Q1 ∧ (∀ env. Q1 env ⇒ Q0 env) ⇒ Hoare P0 c Q0)
 End
@@ -33,14 +35,16 @@ Proof
   Induct_on ‘Hoare’ >> rw[]
   (* Skip *)
   >-(simp[is_valid_def, Once eval_com_cases])
-  (* assignment *)
-  >-()
-  (* Ceq *)
-  >-()
+  (* Assignment *)
+  >-(cheat)
+  (* Seq *)
+  >-(cheat)
+  (* If *)
+  >-(cheat)
   (* While *)
-  >-()
+  >-(cheat)
   (* Consequence *)
-  >-()
+  >-(cheat)
 QED
 
 (*
