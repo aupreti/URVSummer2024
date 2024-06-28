@@ -1,7 +1,7 @@
 open HolKernel Parse boolLib bossLib;
-open stringTheory hoareSyntaxDefTheory;
+open stringTheory hoareSyntaxDefTheory hoareSemanticsDefTheory;
 
-val _ = new_theory "hoareSemanticsDef";
+val _ = new_theory "hoareProofDef";
 
 val _ = type_abbrev("var"  , ``:string``);
 val _ = type_abbrev("env"  , ``:string -> num``);
@@ -16,7 +16,9 @@ End
 Inductive Hoare:
   (Hoare P CSkip P) ∧
   (Hoare (assert_subst Q v ae) (CAsgn v ae) Q) ∧
-  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R)
+  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R) ∧
+  (Hoare (λenv. P env ∧ eval_bexpr env b T) c1 Q ∧
+   Hoare (λenv. P env ∧ eval_bexpr env b F) c2 Q ⇒ Hoare P (CIf b c1 c2) Q)
 End
 
 (*
