@@ -10,7 +10,7 @@ val _ = type_abbrev("assert"  , ``:env -> bool``);
 Definition assert_subst_def:
   assert_subst (P: assert) (x: var) (ae: aexp) : assert =
   (λenv.
-     ∃a. eval_aexpr env ae a ⇒ P env⦇x ↦ a⦈)
+     ∀a. eval_aexpr env ae a ⇒ P env⦇x ↦ a⦈)
 End
 
 Inductive Hoare:
@@ -36,7 +36,8 @@ Proof
   (* Skip *)
   >-(simp[is_valid_def, Once eval_com_cases])
   (* Assignment *)
-  >-(cheat)
+  >-(simp [is_valid_def, assert_subst_def, Once eval_com_cases]
+      >> rw[] >> first_x_assum drule >> simp[])
   (* Seq *)
   >-(cheat)
   (* If *)
