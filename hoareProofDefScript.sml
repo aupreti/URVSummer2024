@@ -10,7 +10,7 @@ val _ = type_abbrev("assert"  , ``:env -> bool``);
 Definition assert_subst_def:
   assert_subst (P: assert) (x: var) (ae: aexp) : assert =
   (λenv.
-     ∃a. eval_aexpr env ae a ⇒ P env⦇x ↦ a⦈)
+     ∀a. eval_aexpr env ae a ⇒ P env⦇x ↦ a⦈)
 End
 
 Inductive Hoare:
@@ -28,6 +28,19 @@ Definition is_valid_def:
   (∀ env0 env1. P env0 ∧ eval_com env0 c env1 ⇒ Q env1)
 End
 
+Theorem hoare_consequence_pre:
+  ∀P0 P c Q. Hoare P0 c Q ∧ (∀env. P env ⇒ P0 env) ⇒ Hoare P c Q
+Proof
+  rw[] >> simp[Once Hoare_cases] >> rw[] >> NTAC 5 disj2_tac
+  >> qexists_tac ‘P0’ >> qexists_tac ‘Q’ >> simp[]
+QED
+        
+Theorem hoare_consequence_post:
+  ∀P c Q Q0. Hoare P c Q0 ∧(∀env. Q0 env ⇒ Q env) ⇒ Hoare P c Q
+Proof
+  rw[] >> simp[Once Hoare_cases] >> rw[] >> NTAC 5 disj2_tac
+  >> qexists_tac ‘P’ >> qexists_tac ‘Q0’ >> simp[]  
+QED
 
 Theorem hoare_sound :
   ∀ P c Q. Hoare P c Q ⇒ is_valid P c Q
@@ -36,7 +49,8 @@ Proof
   (* Skip *)
   >-(simp[is_valid_def, Once eval_com_cases])
   (* Assignment *)
-  >-(cheat)
+  >-(simp [is_valid_def, assert_subst_def, Once eval_com_cases]
+     >> rw[] >> first_x_assum drule >> simp[])
   (* Seq *)
   >-(cheat)
   (* If *)
@@ -44,7 +58,9 @@ Proof
   (* While *)
   >-(cheat)
   (* Consequence *)
-  >-(cheat)
+  (*  >-(fs[is_valid_def] >> metis_tac[]) works, but the following is more step-by-step approach. *)
+  >-(fs[is_valid_def] >>  drule_all hoare_consequence_pre >> drule_all hoare_consequence_post  >> rw[]
+     >> first_x_assum irule >> first_x_assum irule >> qexists_tac ‘env0’ >> gs[])
 QED
 
 (*
