@@ -16,7 +16,7 @@ End
 Inductive Hoare:
   (Hoare P CSkip P) ∧
   (Hoare (assert_subst Q v ae) (CAsgn v ae) Q) ∧
-  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R) ∧
+  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (CSeq c1 c2) R) ∧
   (Hoare (λenv. P env ∧ eval_expr env b T) c1 Q ∧
    Hoare (λenv. P env ∧ eval_expr env b F) c2 Q ⇒ Hoare P (CIf b c1 c2) Q) ∧  
   (Hoare (λenv. P env ∧ eval_bexpr env b T) c P ⇒ Hoare P (CWhile b c) (λenv. P env ∧ (eval_bexpr env b F))) ∧ 
@@ -52,7 +52,9 @@ Proof
   >-(simp [is_valid_def, assert_subst_def, Once eval_com_cases]
      >> rw[] >> first_x_assum drule >> simp[])
   (* Seq *)
-  >-(cheat)
+  >-(fs[is_valid_def] >> simp[Once eval_com_cases] >> rw[] >> gs[]
+     >> qpat_x_assum ‘∀env0 env1. P env0 ∧ eval_com env0 c1 env1 ⇒ Q env1’ drule_all
+     >> rw[] >> first_x_assum irule >>qexists_tac ‘env2’ >> gs[])
   (* If *)
   >-(cheat)
   (* While *)
