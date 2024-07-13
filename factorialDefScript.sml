@@ -20,6 +20,17 @@ Definition factorial_prog_def:
     (CAsgn "Z" (AMinus (AId "Z") (ANum 1)))))
 End
 
+Definition factorial_def:
+  factorial  n =
+  | 0 => 1
+  | SUC n' => n * (fact n') 
+End
+
+Theorem factorial_correct:
+? (*Remember to use our definition of Hoare *)
+Proof
+QED
+
 (*
 Definition fact_in_coq : com :=
   <{ Z := X;
