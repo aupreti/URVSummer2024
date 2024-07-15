@@ -16,7 +16,7 @@ End
 Inductive Hoare:
   (Hoare P CSkip P) ∧
   (Hoare (assert_subst Q v ae) (CAsgn v ae) Q) ∧
-  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (Cseq c1 c2) R) ∧
+  (Hoare P c1 Q ∧ Hoare Q c2 R ⇒ Hoare P (CSeq c1 c2) R) ∧
   (Hoare (λenv. P env ∧ eval_expr env b T) c1 Q ∧
    Hoare (λenv. P env ∧ eval_expr env b F) c2 Q ⇒ Hoare P (CIf b c1 c2) Q) ∧  
   (Hoare (λenv. P env ∧ eval_bexpr env b T) c P ⇒ Hoare P (CWhile b c) (λenv. P env ∧ (eval_bexpr env b F))) ∧ 
@@ -28,6 +28,19 @@ Definition is_valid_def:
   (∀ env0 env1. P env0 ∧ eval_com env0 c env1 ⇒ Q env1)
 End
 
+Theorem hoare_consequence_pre:
+  ∀P0 P c Q. Hoare P0 c Q ∧ (∀env. P env ⇒ P0 env) ⇒ Hoare P c Q
+Proof
+  rw[] >> simp[Once Hoare_cases] >> rw[] >> NTAC 5 disj2_tac
+  >> qexists_tac ‘P0’ >> qexists_tac ‘Q’ >> simp[]
+QED
+        
+Theorem hoare_consequence_post:
+  ∀P c Q Q0. Hoare P c Q0 ∧(∀env. Q0 env ⇒ Q env) ⇒ Hoare P c Q
+Proof
+  rw[] >> simp[Once Hoare_cases] >> rw[] >> NTAC 5 disj2_tac
+  >> qexists_tac ‘P’ >> qexists_tac ‘Q0’ >> simp[]  
+QED
 
 Theorem hoare_sound :
   ∀ P c Q. Hoare P c Q ⇒ is_valid P c Q
@@ -37,15 +50,23 @@ Proof
   >-(simp[is_valid_def, Once eval_com_cases])
   (* Assignment *)
   >-(simp [is_valid_def, assert_subst_def, Once eval_com_cases]
+<<<<<<< HEAD
       >> rw[] >> first_x_assum drule >> simp[])
+=======
+     >> rw[] >> first_x_assum drule >> simp[])
+>>>>>>> e5af11667e740c4db1c539d61acfa08773c00080
   (* Seq *)
-  >-(cheat)
+  >-(fs[is_valid_def] >> simp[Once eval_com_cases] >> rw[] >> gs[]
+     >> qpat_x_assum ‘∀env0 env1. P env0 ∧ eval_com env0 c1 env1 ⇒ Q env1’ drule_all
+     >> rw[] >> first_x_assum irule >>qexists_tac ‘env2’ >> gs[])
   (* If *)
   >-(cheat)
   (* While *)
   >-(cheat)
   (* Consequence *)
-  >-(cheat)
+  (*  >-(fs[is_valid_def] >> metis_tac[]) works, but the following is more step-by-step approach. *)
+  >-(fs[is_valid_def] >>  drule_all hoare_consequence_pre >> drule_all hoare_consequence_post  >> rw[]
+     >> first_x_assum irule >> first_x_assum irule >> qexists_tac ‘env0’ >> gs[])
 QED
 
 (*
