@@ -1,5 +1,5 @@
 open HolKernel Parse boolLib bossLib;
-open stringTheory hoareSyntaxDefTheory;
+open stringTheory hoareSyntaxDefTheory hoareSemanticsDefTheory hoareProofDefTheory;
 
 val _ = new_theory "factorialDef";
 
@@ -20,14 +20,23 @@ Definition factorial_prog_def:
     (CAsgn "Z" (AMinus (AId "Z") (ANum 1)))))
 End
 
-Definition factorial_def:
-  factorial  n =
-  | 0 => 1
-  | SUC n' => n * (fact n') 
+Definition fact_spec_def:
+  (fact_spec 0  = 1) ∧
+  (fact_spec (SUC n0)  =  (SUC n0) * (fact_spec n0))
+End
+
+Definition precond_factorial_def:
+  precond_factorial n : assert =
+  (λenv. env "Z" = 0 ∧ env "Y" = 0 ∧ env "X" = n  )
+End
+        
+Definition post_factorial_def:
+  post_factorial n : assert =
+   (λenv. env "Y" = fact_spec n)
 End
 
 Theorem factorial_correct:
-? (*Remember to use our definition of Hoare *)
+  ∀n. Hoare (precond_factorial n) factorial_prog (post_factorial n)
 Proof
 QED
 
