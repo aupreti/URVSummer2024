@@ -36,28 +36,45 @@ End
 Theorem factorial_correct:
   ∀n. Hoare (precond_factorial n) factorial_prog (post_factorial n)
 Proof
-  simp[factorial_prog_def, precond_factorial_def, post_factorial_def, Once Hoare_cases]
+  simp[factorial_prog_def, precond_factorial_def, post_factorial_def]
+  >> simp[Once Hoare_cases]
   >> strip_tac >> DISJ2_TAC >> qexists_tac ‘(λenv. 1 * (fact_spec (env "X")) = fact_spec n)’
   >> simp[] >> simp[Once Hoare_cases, assert_subst_def, FUN_EQ_THM]
   >> qexists_tac ‘(λenv. env "Y" * fact_spec (env "X") = fact_spec n /\ env "X" = 0)’ >> rw[]
-                                                                                                
-  >-(DISJ1_TAC >> simp[Once Hoare_cases, assert_subst_def, FUN_EQ_THM]
+                                                                                    
+  >-(DISJ1_TAC >> simp[Once Hoare_cases, assert_subst_def] >> simp[FUN_EQ_THM]
      >> qexists_tac ‘(λenv. env "Y" * fact_spec (env "X") = fact_spec n)’
      >> simp[] >> rw[]
      (* Assignment  Y ::= ANum 1 *)
      >-(DISJ1_TAC >> simp[Once eval_aexpr_cases, APPLY_UPDATE_THM])
      (* while loop *)
-     >-(simp[Once Hoare_cases]
-       (* TODO *)
-       )
-
-    )
+     >-(simp[Once Hoare_cases] >> DISJ1_TAC >> rw[] >> simp[FUN_EQ_THM]
+        >-(NTAC 2 (simp[Once eval_bexpr_cases]) >> NTAC 2 (simp[Once eval_aexpr_cases]))
+        >-(simp[Once Hoare_cases] >> DISJ2_TAC
+           >> NTAC 2 (simp[Once eval_bexpr_cases]) >> NTAC 2 (simp[Once eval_aexpr_cases])
+           >> qexists_tac ‘(λenv. env "Y" * env "X" * fact_spec (env "X" - 1) = fact_spec n)’
+           >> qexists_tac ‘λenv. env "Y" * fact_spec (env "X") = fact_spec n’ >> simp[] >> rw[]
+           >-(Cases_on ‘env "X"’ >> gs[fact_spec_def])
+           >-(simp[Once Hoare_cases] >> DISJ1_TAC >> simp[Once Hoare_cases, assert_subst_def, FUN_EQ_THM]
+              >> qexists_tac ‘(λenv. env "Y" * fact_spec (env "X" - 1) = fact_spec n)’ >> rw[]
+              >-(DISJ1_TAC >> NTAC 3 (simp[Once eval_aexpr_cases]) >> simp[APPLY_UPDATE_THM])
+              >-(simp[Once Hoare_cases] >> DISJ1_TAC >> simp[Once Hoare_cases, assert_subst_def, FUN_EQ_THM, APPLY_UPDATE_THM]
+                 >> NTAC 3 (simp[Once eval_aexpr_cases]) >> simp[APPLY_UPDATE_THM])))))
         
   (* Consequence rule at the end *)
   >-(gs[fact_spec_def])
-  
 QED
 
+
+
+
+
+
+
+
+
+
+        
 (*
 Example factorial_dec (m:nat) : dcom := (
     {{ fun st => st X = m }} ->>
